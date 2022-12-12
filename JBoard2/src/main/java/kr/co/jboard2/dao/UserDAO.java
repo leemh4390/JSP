@@ -252,7 +252,59 @@ public class UserDAO extends DBHelper {
 		return vo;
 	}
 	
-	public void updateUser() {}
+	public void updateUser(UserVO user) {
+		
+		try {
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_USER_INFO);
+			psmt.setString(1, user.getName());
+			psmt.setString(2, user.getNick());
+			psmt.setString(3, user.getEmail());
+			psmt.setString(4, user.getHp());
+			psmt.setString(5, user.getZip());
+			psmt.setString(6, user.getAddr1());
+			psmt.setString(7, user.getAddr2());
+			psmt.setString(8, user.getUid());
+			psmt.executeUpdate();
+			
+			close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public UserVO selectUserForChangeInfo(String uid) {
+		UserVO user = null;
+		try {
+			logger.info("selectUserForChangeInfo start...");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_USER_FOR_CHANGE_INFO);
+			psmt.setString(1, uid);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				user = new UserVO();
+				user.setUid(rs.getString(1));
+				user.setPass(rs.getString(2));
+				user.setName(rs.getString(3));
+				user.setNick(rs.getString(4));
+				user.setEmail(rs.getString(5));
+				user.setHp(rs.getString(6));
+				user.setGrade(rs.getInt(7));
+				user.setZip(rs.getString(8));
+				user.setAddr1(rs.getString(9));
+				user.setAddr2(rs.getString(10));
+				user.setRegip(rs.getString(11));
+				user.setRdate(rs.getString(12));
+			}
+			close();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return user;
+	}
 	
 	public int updateUserPassword(String uid, String pass) {
 		
@@ -303,8 +355,5 @@ public class UserDAO extends DBHelper {
 	
 	public void deleteUser() {}
 }
-
-
-
 
 

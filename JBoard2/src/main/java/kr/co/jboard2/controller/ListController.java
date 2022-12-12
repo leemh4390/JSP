@@ -36,6 +36,10 @@ public class ListController extends HttpServlet  {
 			total = service.selectCountTotalForSearch(search);
 		}
 		
+		if(pg!=null){
+			currentPage = Integer.parseInt(pg);
+		}
+		
 		int lastPageNum = service.getLastPageNum(total);// 마지막 페이지 번호
 		int[] result = service.getPageGroupNum(currentPage, lastPageNum); // 페이지 그룹번호
 		int pageStartNum = service.getPageStartNum(total, currentPage); // 페이지 시작번호

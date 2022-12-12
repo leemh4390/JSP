@@ -1,8 +1,9 @@
 package kr.co.jboard2.controller;
 
+import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.jboard2.dao.ArticleDAO;
-import kr.co.jboard2.vo.ArticleVO;
 
-@WebServlet("/modify.do")
-public class ModifyController extends HttpServlet  {
+@WebServlet("/delete.do")
+public class DeleteController extends HttpServlet{
+
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -26,26 +27,31 @@ public class ModifyController extends HttpServlet  {
 		String no = req.getParameter("no");
 		String pg = req.getParameter("pg");
 		
-		ArticleVO article = ArticleDAO.getInstance().selectArticle(no);
+		ArticleDAO dao = ArticleDAO.getInstance();
 		
-		req.setAttribute("no", no);
-		req.setAttribute("pg", pg);
-		req.setAttribute("article", article);
+		//글삭제
+		dao.deleteArticle(no);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/modify.jsp");
-		dispatcher.forward(req, resp);
+		//파일 DB 삭제
+		String fileName = dao.deleteFile(no);
+		
+		//실제 파일 삭제
+		if(fileName != null){
+			ServletContext application = req.getServletContext();
+			String path = application.getRealPath("/file");
+			
+			File file = new File(path, fileName);
+			
+			if(file.exists()){
+				file.delete();
+			}
+		}
+		resp.sendRedirect("/JBoard2/list.do?pg="+pg);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		String pg = req.getParameter("pg");
-		String no = req.getParameter("no");
-		String title = req.getParameter("title");
-		String content = req.getParameter("content");
-		
-		ArticleDAO.getInstance().updateArticle(no, title, content);
-		
-		resp.sendRedirect("/JBoard2/view.do?no="+no+"&pg="+pg);
 	}
+	
+
 }

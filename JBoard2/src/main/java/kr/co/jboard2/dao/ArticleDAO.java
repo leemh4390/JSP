@@ -129,6 +129,7 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	public ArticleVO selectArticle(String no) {
+		
 		ArticleVO article = null;
 		
 		try{
@@ -311,21 +312,22 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	public void updateArticle(String no, String title, String content) {
-		
-		try {
-			Connection conn = getConnection();
-			PreparedStatement psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE);
-			psmt.setString(1, title);
-			psmt.setString(2, content);
-			psmt.setString(3, no);
 			
-			psmt.executeUpdate();
-			psmt.close();
-			conn.close();
-		}catch (Exception e) {
-			e.printStackTrace();
+			try {
+				Connection conn = getConnection();
+				PreparedStatement psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE);
+				psmt.setString(1, title);
+				psmt.setString(2, content);
+				psmt.setString(3, no);
+				
+				psmt.executeUpdate();
+				psmt.close();
+				conn.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-	}
+	
 	public void deleteArticle(String no) {
 		try {
 			Connection conn = getConnection();

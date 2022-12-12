@@ -32,6 +32,7 @@ public class ViewController extends HttpServlet  {
 		
 		// 글 가져오기
 		ArticleVO article = dao.selectArticle(no);
+		req.setAttribute("pg", pg);
 		req.setAttribute("article", article);
 		
 		// 글 조회수 카운트 +1

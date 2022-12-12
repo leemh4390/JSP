@@ -27,12 +27,14 @@ public class InfoController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/info.jsp");
 		dispatcher.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		String uid = req.getParameter("uid");
 		String pass = req.getParameter("pass");
 		

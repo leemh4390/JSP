@@ -77,8 +77,8 @@
                 </table>
                 
                 <div>
-                    <a href="#" class="btn btnRemove">삭제</a>
-                    <a href="./modify.html" class="btn btnModify">수정</a>
+                    <a href="/JBoard2/delete.do?no=${article.no }&pg=${pg}" class="btn btnRemove">삭제</a>
+                    <a href="/JBoard2/modify.do?no=${article.no }&pg=${pg}" class="btn btnModify">수정</a>
                     <a href="./list.do" class="btn btnList">목록</a>
                 </div>
 
@@ -104,7 +104,7 @@
                 <section class="commentForm">
                     <h3>댓글쓰기</h3>
                     <form action="#" method="post">
-                    	<input type="hidden" name="pg" value="${article.pg }" >
+                    	<input type="hidden" name="pg" value="${pg }" >
                     	<input type="hidden" name="parent" value="${article.parent }">
                     	<input type="hidden" name="uid" value="${sessUser.uid }">
                         <textarea name="content">댓글내용 입력</textarea>
